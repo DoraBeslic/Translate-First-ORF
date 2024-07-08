@@ -18,14 +18,14 @@ def get_args():
         description="parses fasta file",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    # get the FASTA file of sequences
-    parser.add_argument('filename',  # variable to access this data later: args.filename
-                        metavar='FASTA', # shorthand to represent the input value
-                        help='Provide name and path to FASTA file to process.', # message to the user, it goes into the help menu
+    # Get the FASTA file of sequences
+    parser.add_argument('filename',  # Variable to access this data later: args.filename
+                        metavar='FASTA', # Shorthand to represent the input value
+                        help='Provide name and path to FASTA file to process.', # Message to the user, it goes into the help menu
                         type=str)
-    parser.add_argument('-p', '--pattern',  # access with args.pattern
+    parser.add_argument('-p', '--pattern',  # Access with args.pattern
                         help='Provide a regex pattern for filtering FASTA entries',
-                        default='^\\d{1}\\D*$')  # default works for Drosophila chromosomes
+                        default='^\\d{1}\\D*$')  # Default works for Drosophila chromosomes
 
     return(parser.parse_args())
 
@@ -38,10 +38,10 @@ def find_first_orf(rna):
     Must have even multiple of 3 RNA bases between
     """
     try:
-        # update regex to find the ORF
+        # Update regex to find the ORF
         orf = re.search('AUG([AUGC]{3})+?(UAA|UAG|UGA)', str(rna)).group()
 
-    except AttributeError:  # if no match found, orf should be empty
+    except AttributeError:  # If no match found, orf should be empty
         orf = ""
     return(Seq(orf))
 
@@ -52,7 +52,7 @@ def translate_first_orf(dna):
     Assumes input sequences is a Bio.Seq object.
     """
 
-    # transcribe the DNA, find the first ORF, translate said ORF
+    # Transcribe the DNA, find the first ORF, translate said ORF
     rna = dna.transcribe()
     rna_orf = find_first_orf(rna)
     translated_orf = rna_orf.translate()
@@ -61,14 +61,14 @@ def translate_first_orf(dna):
 
 if __name__ == "__main__":
 
-    # get command-line arguments
+    # Get command-line arguments
     args = get_args()
 
-    #use SeqIO to get the records in the fasta file provided by the command-line input
+    # Use SeqIO to get the records in the fasta file provided by the command-line input
     with open(args.filename) as file:
         for record in SeqIO.parse(file, "fasta"):
 
-            # if the FASTA record's ID matches the regex pattern print out its record ID and translated first ORF
+            # If the FASTA record's ID matches the regex pattern print out its record ID and translated first ORF
             if re.match(args.pattern, record.id):
                 dna = record.seq
                 first_orf = translate_first_orf(dna)
