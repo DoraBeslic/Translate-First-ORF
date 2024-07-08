@@ -3,7 +3,7 @@
 **Author:** Isidora Beslic  
 **Date created:** February 23, 2023  
 **Date started:** February 20, 2023  
-**Calling identify_sequence_refactored.py on the command line:** python translate_first_orf.py [path to fasta file]  
+**Calling on the command line:** python translate_first_orf.py [path to fasta file]  
 ## Tests: 
 **test_translate_first_orf.py (run with pytest)**
 - **test_short_orf:** pass
